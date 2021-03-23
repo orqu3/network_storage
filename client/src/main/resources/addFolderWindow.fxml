@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="globParent" alignment="center" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.network_storage.client.controllers.AddFolderController">
+    <TextField fx:id="folder" maxWidth="200" promptText="Folder">
+        <VBox.margin>
+            <Insets bottom="10.0" />
+        </VBox.margin></TextField>
+    <Button onAction="#create" prefWidth="200" text="CREATE">
+        <opaqueInsets>
+            <Insets />
+        </opaqueInsets>
+        <VBox.margin>
+            <Insets top="10.0" />
+        </VBox.margin>
+      <graphic>
+         <ImageView fitHeight="20.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@images/add.png" />
+            </image>
+         </ImageView>
+      </graphic></Button>
+</VBox>

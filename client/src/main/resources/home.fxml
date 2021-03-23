@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="rootNode" alignment="CENTER" style="-fx-background-color: linear-gradient(#fff 0%, #eee 10%, #ddd 90%, #bbb 100%);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.network_storage.client.controllers.Controller">
+    <HBox>
+        <Button onAction="#pressOnDownloadBtn" prefHeight="35.0" prefWidth="100.0" text="Download">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/download.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+        <Button onAction="#pressOnUploadBtn" prefHeight="35.0" prefWidth="100.0" text="Upload">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/upload.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+        <Button onAction="#pressOnUpdateBtn" prefHeight="35.0" prefWidth="100.0" text="Update">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/update.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+        <Button onAction="#pressOnAddBtn" prefHeight="35.0" prefWidth="100.0" text="Add">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/add.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+        <Button onAction="#pressOnDltBtn" prefHeight="35.0" prefWidth="100.0" text="Delete">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/delete.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+        <Button onAction="#pressOnBckBtn" prefHeight="35.0" prefWidth="100.0">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/back.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+        <Button onAction="#pressOnForwardBtn" prefHeight="35.0" prefWidth="100.0">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/forward.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+    </HBox>
+   <BorderPane VBox.vgrow="ALWAYS">
+      <center>
+          <ListView fx:id="serverFilesList" prefHeight="436.0" prefWidth="643.0" />
+      </center>
+      <right>
+         <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
+      </right>
+      <top>
+         <Separator prefWidth="200.0" BorderPane.alignment="CENTER" />
+      </top>
+      <bottom>
+         <Separator prefWidth="200.0" BorderPane.alignment="CENTER" />
+      </bottom>
+      <left>
+         <Separator orientation="VERTICAL" prefHeight="200.0" BorderPane.alignment="CENTER" />
+      </left>
+   </BorderPane>
+   <BorderPane VBox.vgrow="ALWAYS">
+      <center>
+          <ListView fx:id="filesList" />
+      </center>
+      <right>
+         <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
+      </right>
+      <top>
+         <Separator prefWidth="200.0" BorderPane.alignment="CENTER" />
+      </top>
+      <bottom>
+         <Separator prefWidth="200.0" BorderPane.alignment="CENTER" />
+      </bottom>
+      <left>
+         <Separator orientation="VERTICAL" prefHeight="200.0" BorderPane.alignment="CENTER" />
+      </left>
+   </BorderPane>
+</VBox>
