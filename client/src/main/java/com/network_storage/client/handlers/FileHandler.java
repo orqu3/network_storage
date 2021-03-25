@@ -1,6 +1,6 @@
-package com.network_storage.client.controllers;
+package com.network_storage.client.handlers;
 
-import com.network_storage.client.handlers.ClientHandler;
+import com.network_storage.client.controllers.Controller;
 import com.network_storage.client_server.Commands;
 import com.network_storage.client_server.Stages;
 import io.netty.buffer.ByteBuf;
@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class MainController extends ChannelInboundHandlerAdapter {
+public class FileHandler extends ChannelInboundHandlerAdapter {
 
     private final ClientHandler clientHandler;
     private Path path = null;
@@ -26,7 +26,7 @@ public class MainController extends ChannelInboundHandlerAdapter {
     private BufferedOutputStream bos;
     private final Controller controller;
 
-    public MainController(Controller controller){
+    public FileHandler(Controller controller){
         this.controller = controller;
         clientHandler = controller.getClientFileMethods();
     }

@@ -1,7 +1,7 @@
 package com.network_storage.client.network;
 
 import com.network_storage.client.controllers.Controller;
-import com.network_storage.client.controllers.MainController;
+import com.network_storage.client.handlers.FileHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -36,7 +36,7 @@ public class Network {
             clientBootstrap.remoteAddress(new InetSocketAddress("localhost", 8189));
             clientBootstrap.handler(new ChannelInitializer<SocketChannel>() {
                 protected void initChannel(SocketChannel socketChannel) {
-                    socketChannel.pipeline().addLast(new MainController(controller));
+                    socketChannel.pipeline().addLast(new FileHandler(controller));
                     currentChannel = socketChannel;
                 }
             });

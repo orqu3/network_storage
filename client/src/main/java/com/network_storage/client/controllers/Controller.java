@@ -87,7 +87,7 @@ public class Controller implements Initializable {
         }
     }
 
-    void updateLocalFilesList() {
+    public void updateLocalFilesList() {
         if (Platform.isFxApplicationThread()) {
             try {
                 filesList.getItems().clear();
@@ -107,7 +107,7 @@ public class Controller implements Initializable {
         }
     }
 
-    void refreshServerFilesList(String[] serverList) {
+    public void refreshServerFilesList(String[] serverList) {
 
         if (Platform.isFxApplicationThread()) {
             serverFilesList.getItems().clear();

@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class UserHandler extends ChannelInboundHandlerAdapter {
+public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     private final DatabaseConnector db_connector;
     private final FileHandler fileHandler = new FileHandler();
@@ -27,7 +27,7 @@ public class UserHandler extends ChannelInboundHandlerAdapter {
     private int reqNameLength = 0;
     private BufferedOutputStream bos;
 
-    public UserHandler(DatabaseConnector db_connector){
+    public ClientHandler(DatabaseConnector db_connector){
         this.db_connector = db_connector;
     }
 

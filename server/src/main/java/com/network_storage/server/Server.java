@@ -1,7 +1,7 @@
 package com.network_storage.server;
 
 import com.network_storage.server.database.DatabaseConnector;
-import com.network_storage.server.handlers.UserHandler;
+import com.network_storage.server.handlers.ClientHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -36,7 +36,7 @@ public class Server {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) {
-                            ch.pipeline().addLast(new UserHandler(db_connector));
+                            ch.pipeline().addLast(new ClientHandler(db_connector));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)
