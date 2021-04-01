@@ -39,10 +39,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
         if (sType == Stages.START_TYPE){
             uType = Commands.getTypeFromByte(byteBuf.readByte());
-            switch (uType){
-                case AUTH:
-                case REG: sType = Stages.GET_USER_LENGTH;
-                    break;
+            switch (uType) {
+                case AUTH, REG -> sType = Stages.GET_USER_LENGTH;
             }
         }
 
@@ -57,11 +55,9 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
             byte[] authNameArr = new byte[reqNameLength];
             byteBuf.readBytes(authNameArr);
             userInfo = new String(authNameArr);
-            switch (uType){
-                case REG: sType = Stages.GET_REG;
-                    break;
-                case AUTH: sType = Stages.GET_AUTH;
-                    break;
+            switch (uType) {
+                case REG -> sType = Stages.GET_REG;
+                case AUTH -> sType = Stages.GET_AUTH;
             }
         }
 
@@ -90,19 +86,11 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
         if (sType == Stages.GET_COMMAND){
             uType = Commands.getTypeFromByte(byteBuf.readByte());
-            switch (uType){
-                case DOWNLOAD:
-                case UPLOAD:
-                case CREATE:
-                case FORWARD:
-                case DELETE: sType = Stages.GET_FILE_NAME_LENGTH;
-                    break;
-                case BACK: sType = Stages.MOVE_BACK;
-                    break;
-                case LIST: sType = Stages.SEND_LIST;
-                    break;
-                case EXIT: sType = Stages.EXIT;
-                    break;
+            switch (uType) {
+                case DOWNLOAD, UPLOAD, CREATE, FORWARD, DELETE -> sType = Stages.GET_FILE_NAME_LENGTH;
+                case BACK -> sType = Stages.MOVE_BACK;
+                case LIST -> sType = Stages.SEND_LIST;
+                case EXIT -> sType = Stages.EXIT;
             }
         }
 
@@ -118,19 +106,13 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
             byteBuf.readBytes(fileNameArr);
             fileName = new String(fileNameArr);
             path = Paths.get(fileHandler.getServerPath() + fileName);
-            switch (uType){
-                case DOWNLOAD: sType = Stages.SEND_FILE;
-                    break;
-                case UPLOAD: sType = Stages.GET_FILE_LENGTH;
-                    break;
-                case DELETE: sType = Stages.DELETE_FILE;
-                    break;
-                case CREATE: sType = Stages.CREATE_DIR;
-                    break;
-                case FORWARD: sType = Stages.MOVE_FORWARD;
-                    break;
-                default: sType = Stages.GET_COMMAND;
-                    break;
+            switch (uType) {
+                case DOWNLOAD -> sType = Stages.SEND_FILE;
+                case UPLOAD -> sType = Stages.GET_FILE_LENGTH;
+                case DELETE -> sType = Stages.DELETE_FILE;
+                case CREATE -> sType = Stages.CREATE_DIR;
+                case FORWARD -> sType = Stages.MOVE_FORWARD;
+                default -> sType = Stages.GET_COMMAND;
             }
         }
 

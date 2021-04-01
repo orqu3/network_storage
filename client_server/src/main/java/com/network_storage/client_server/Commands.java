@@ -40,22 +40,22 @@ public enum Commands {
     }
 
     public static byte getByteFromType(Commands type) {
-        switch (type){
-            case FILE: return 15;
-            case DOWNLOAD: return 16;
-            case UPLOAD: return 17;
-            case LIST: return 18;
-            case DELETE: return 19;
-            case END: return 20;
-            case AUTH: return 21;
-            case REG: return 22;
-            case CREATE: return 23;
-            case FORWARD: return 24;
-            case BACK: return 25;
-            case EXIT: return 26;
-            case WARNING: return 27;
-            default: return -1;
-        }
+        return switch (type) {
+            case FILE -> (byte)15;
+            case DOWNLOAD -> (byte)16;
+            case UPLOAD -> (byte)17;
+            case LIST -> (byte)18;
+            case DELETE -> (byte)19;
+            case END -> (byte)20;
+            case AUTH -> (byte)21;
+            case REG -> (byte)22;
+            case CREATE -> (byte)23;
+            case FORWARD -> (byte)24;
+            case BACK -> (byte)25;
+            case EXIT -> (byte)26;
+            case WARNING -> (byte)27;
+            default -> (byte)-1;
+        };
     }
 }
 

@@ -38,13 +38,9 @@ public class FileHandler extends ChannelInboundHandlerAdapter {
 
         if (sType == Stages.GET_COMMAND){
             uType = Commands.getTypeFromByte(byteBuf.readByte());
-            switch (uType){
-                case WARNING:
-                case LIST:
-                case FILE: sType = Stages.GET_FILE_NAME_LENGTH;
-                    break;
-                case AUTH: Platform.runLater(controller::closeAuth);
-                    break;
+            switch (uType) {
+                case WARNING, LIST, FILE -> sType = Stages.GET_FILE_NAME_LENGTH;
+                case AUTH -> Platform.runLater(controller::closeAuth);
             }
         }
 
@@ -59,22 +55,19 @@ public class FileHandler extends ChannelInboundHandlerAdapter {
             byte[] fileNameArr = new byte[fileNameLength];
             byteBuf.readBytes(fileNameArr);
             fileName = new String(fileNameArr);
-            switch (uType){
-                case LIST:{
+            switch (uType) {
+                case LIST -> {
                     controller.refreshServerFilesList(fileName.split(" "));
                     sType = Stages.GET_COMMAND;
                 }
-                break;
-                case FILE:{
+                case FILE -> {
                     path = Paths.get("client_storage/" + fileName);
                     sType = Stages.GET_FILE_LENGTH;
                 }
-                break;
-                case WARNING: {
+                case WARNING -> {
                     Platform.runLater(() -> controller.showWarning(fileName));
                     sType = Stages.GET_COMMAND;
                 }
-                break;
             }
         }
 
