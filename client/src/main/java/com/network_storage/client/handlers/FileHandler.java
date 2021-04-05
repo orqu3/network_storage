@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 
 public class FileHandler extends ChannelInboundHandlerAdapter {
 
-    private final ClientHandler clientHandler;
+    private ClientHandler clientHandler;
     private Path path = null;
     private long fileReqLength = 0;
     private long loadedLength = 0;
@@ -26,7 +26,7 @@ public class FileHandler extends ChannelInboundHandlerAdapter {
     private BufferedOutputStream bos;
     private final Controller controller;
 
-    public FileHandler(Controller controller){
+    public FileHandler(Controller controller) {
         this.controller = controller;
         clientHandler = controller.getClientFileMethods();
     }
@@ -36,7 +36,7 @@ public class FileHandler extends ChannelInboundHandlerAdapter {
 
         ByteBuf byteBuf = (ByteBuf) msg;
 
-        if (sType == Stages.GET_COMMAND){
+        if (sType == Stages.GET_COMMAND) {
             uType = Commands.getTypeFromByte(byteBuf.readByte());
             switch (uType) {
                 case WARNING, LIST, FILE -> sType = Stages.GET_FILE_NAME_LENGTH;
@@ -44,14 +44,18 @@ public class FileHandler extends ChannelInboundHandlerAdapter {
             }
         }
 
-        if (sType == Stages.GET_FILE_NAME_LENGTH){
-            if (byteBuf.readableBytes() < 4) return;
+        if (sType == Stages.GET_FILE_NAME_LENGTH) {
+            if (byteBuf.readableBytes() < 4) {
+                return;
+            }
             fileNameLength = byteBuf.readInt();
             sType = Stages.GET_FILE_NAME;
         }
 
-        if (sType == Stages.GET_FILE_NAME){
-            if (byteBuf.readableBytes() < fileNameLength) return;
+        if (sType == Stages.GET_FILE_NAME) {
+            if (byteBuf.readableBytes() < fileNameLength) {
+                return;
+            }
             byte[] fileNameArr = new byte[fileNameLength];
             byteBuf.readBytes(fileNameArr);
             fileName = new String(fileNameArr);
@@ -71,8 +75,10 @@ public class FileHandler extends ChannelInboundHandlerAdapter {
             }
         }
 
-        if (sType == Stages.GET_FILE_LENGTH){
-            if (byteBuf.readableBytes() < 8) return;
+        if (sType == Stages.GET_FILE_LENGTH) {
+            if (byteBuf.readableBytes() < 8) {
+                return;
+            }
             fileReqLength = byteBuf.readLong();
             loadedLength = 0;
             clientHandler.createFile(path);
@@ -80,17 +86,25 @@ public class FileHandler extends ChannelInboundHandlerAdapter {
             sType = Stages.GET_FILE;
         }
 
-        if (sType == Stages.GET_FILE){
-            while (byteBuf.readableBytes() > 0 && loadedLength < fileReqLength){
+        if (sType == Stages.GET_FILE) {
+            while (byteBuf.readableBytes() > 0 && loadedLength < fileReqLength) {
                 bos.write(byteBuf.readByte());
                 loadedLength++;
             }
-            if (loadedLength < fileReqLength) return;
+            if (loadedLength < fileReqLength) {
+                return;
+            }
             bos.flush();
             byteBuf.release();
             bos.close();
             controller.updateLocalFilesList();
             sType = Stages.GET_COMMAND;
         }
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+        ctx.close();
     }
 }

@@ -22,9 +22,9 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-    private final Network network = new Network(this);
-    private final ClientHandler clientHandler = new ClientHandler(network);
-    private RegAuthController lc;
+    private Network network = new Network(this);
+    private ClientHandler clientHandler = new ClientHandler(network);
+    private RegAuthController authController;
 
     @javafx.fxml.FXML
     private ListView<String> filesList;
@@ -125,8 +125,8 @@ public class Controller implements Initializable {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/loginWindow.fxml"));
             Parent root = loader.load();
-            lc = (RegAuthController) loader.getController();
-            lc.backController = this;
+            authController = (RegAuthController) loader.getController();
+            authController.backController = this;
             stage.setTitle("My Network Storage Authorization");
             stage.setScene(new Scene(root, 400, 400));
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -137,7 +137,7 @@ public class Controller implements Initializable {
     }
 
     public void closeAuth(){
-        lc.close();
+        authController.close();
     }
 
     public void pressOnAddBtn(ActionEvent actionEvent) {

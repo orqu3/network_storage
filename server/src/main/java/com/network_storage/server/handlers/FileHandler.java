@@ -66,7 +66,7 @@ public class FileHandler {
         ArrayList<String> filesList = new ArrayList<>();
         StringBuilder result = new StringBuilder();
         try {
-            Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+            Files.walkFileTree(path, new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     filesList.add(file.getFileName().toString());
@@ -85,7 +85,9 @@ public class FileHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (String o : filesList) result.append(o).append(" ");
+        for (String o : filesList) {
+            result.append(o).append(" ");
+        }
         System.out.println(result.toString());
         sendCommand(Commands.LIST, result.toString());
     }
@@ -135,7 +137,9 @@ public class FileHandler {
         String[] currentPathArr = serverPath.split("/");
         if (currentPathArr.length >= 2) {
             StringBuilder previousPath = new StringBuilder();
-            for (int i = 0; i <= currentPathArr.length - 2; i++) previousPath.append(currentPathArr[i]).append("/");
+            for (int i = 0; i <= currentPathArr.length - 2; i++) {
+                previousPath.append(currentPathArr[i]).append("/");
+            }
             serverPath = previousPath.toString();
             sendFilesList();
         }
