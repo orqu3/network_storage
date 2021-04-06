@@ -43,7 +43,7 @@
                 <version>0.0.5</version>
                 <configuration>
                     <mainClass>com.network_storage.client.Client</mainClass>
-                    <executable>/Users/mariia/Library/Java/JavaVirtualMachines/corretto-15.0.2/Contents/Home/bin/java</executable>
+                    <executable>/Users/0rque/Library/Java/JavaVirtualMachines/corretto-15.0.2/Contents/Home/bin/java</executable>
                 </configuration>
             </plugin>
             <plugin>

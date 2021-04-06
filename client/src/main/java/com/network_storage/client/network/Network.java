@@ -10,12 +10,16 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.codec.Delimiters;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 
 import java.net.InetSocketAddress;
 
 public class Network {
 
-    private final Controller controller;
+    private Controller controller;
 
     private SocketChannel currentChannel;
 
@@ -36,7 +40,11 @@ public class Network {
             clientBootstrap.remoteAddress(new InetSocketAddress("localhost", 8189));
             clientBootstrap.handler(new ChannelInitializer<SocketChannel>() {
                 protected void initChannel(SocketChannel socketChannel) {
-                    socketChannel.pipeline().addLast(new FileHandler(controller));
+                    socketChannel.pipeline().addLast(
+                            new DelimiterBasedFrameDecoder(1024, Delimiters.lineDelimiter()),
+                            new StringDecoder(),
+                            new StringEncoder(),
+                            new FileHandler(controller));
                     currentChannel = socketChannel;
                 }
             });

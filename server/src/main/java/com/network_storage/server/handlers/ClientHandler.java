@@ -15,8 +15,8 @@ import java.nio.file.Paths;
 
 public class ClientHandler extends ChannelInboundHandlerAdapter {
 
-    private final DatabaseConnector db_connector;
-    private final FileHandler fileHandler = new FileHandler();
+    private DatabaseConnector db_connector;
+    private FileHandler fileHandler = new FileHandler();
     private Path path;
     private long fileReqLength = 0;
     private long loadedLength = 0;
@@ -45,13 +45,17 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         }
 
         if (sType == Stages.GET_USER_LENGTH){
-            if (byteBuf.readableBytes() < 4) return;
+            if (byteBuf.readableBytes() < 4) {
+                return;
+            }
             reqNameLength = byteBuf.readInt();
             sType = Stages.GET_USER;
         }
 
         if (sType == Stages.GET_USER){
-            if (byteBuf.readableBytes() < reqNameLength) return;
+            if (byteBuf.readableBytes() < reqNameLength) {
+                return;
+            }
             byte[] authNameArr = new byte[reqNameLength];
             byteBuf.readBytes(authNameArr);
             userInfo = new String(authNameArr);
@@ -153,7 +157,9 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         }
 
         if (sType == Stages.GET_FILE_LENGTH){
-            if (byteBuf.readableBytes() < 8) return;
+            if (byteBuf.readableBytes() < 8) {
+                return;
+            }
             fileReqLength = byteBuf.readLong();
             loadedLength = 0;
             fileHandler.createFile(path);
@@ -166,7 +172,9 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
                 bos.write(byteBuf.readByte());
                 loadedLength++;
             }
-            if (loadedLength < fileReqLength) return;
+            if (loadedLength < fileReqLength) {
+                return;
+            }
             bos.flush();
             byteBuf.release();
             bos.close();

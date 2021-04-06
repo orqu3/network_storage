@@ -14,9 +14,8 @@ import static io.netty.buffer.Unpooled.buffer;
 
 public class ClientHandler {
 
-
-    private final String CLIENT_PATH = "client_storage/";
-    private final Network network;
+    final String CLIENT_PATH = "client_storage/";
+    private Network network;
 
     public ClientHandler(Network network){
         this.network = network;

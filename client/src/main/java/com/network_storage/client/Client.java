@@ -18,6 +18,10 @@ public class Client extends Application {
         primaryStage.show();
     }
 
+    public void stop() {
+        System.exit(0);
+    }
+
     public static void main(String[] args) {
         launch(args);
     }

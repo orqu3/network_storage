@@ -10,18 +10,17 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.codec.Delimiters;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 
 public class Server {
 
-    private final int port;
-    private final DatabaseConnector db_connector = new DatabaseConnector();
+    private DatabaseConnector db_connector = new DatabaseConnector();
 
-    public static void main(String[] args) throws InterruptedException {
-        new Server(8189).start();
-    }
-
-    public Server(int port) {
-        this.port = port;
+    public DatabaseConnector getDb_connector() {
+        return db_connector;
     }
 
     public void start() throws InterruptedException {
@@ -35,14 +34,18 @@ public class Server {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(SocketChannel ch) {
-                            ch.pipeline().addLast(new ClientHandler(db_connector));
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(
+                                    new DelimiterBasedFrameDecoder(1024, Delimiters.lineDelimiter()),
+                                    new StringDecoder(),
+                                    new StringEncoder(),
+                                    new ClientHandler(db_connector));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 
-            ChannelFuture future = server.bind(port).sync();
+            ChannelFuture future = server.bind(8189).sync();
             db_connector.connect();
 
             System.out.println("Server started!");
@@ -54,5 +57,9 @@ public class Server {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        new Server().start();
     }
 }

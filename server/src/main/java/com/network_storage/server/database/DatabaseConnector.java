@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseConnector {
-    private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/network_storage_db?serverTimezone=Europe/Moscow";
-    private static final String USER_NAME = "root";
-    private static final String PASSWORD = "root";
 
-    private static Connection connection;
-    private static Statement statement;
+    private final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+    private final String DB_URL = "jdbc:mysql://localhost:3306/network_storage_db?serverTimezone=Europe/Moscow";
+    private final String USER_NAME = "root";
+    private final String PASSWORD = "root";
+
+    private Connection connection;
+    private Statement statement;
 
     private static final String folder = "_folder/";
     private List<String> activeUsers = new ArrayList<>();
@@ -29,12 +30,12 @@ public class DatabaseConnector {
     }
 
     public void disconnect() {
-            try {
-                statement.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        try {
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getFolder(String logPass){
@@ -87,4 +88,3 @@ public class DatabaseConnector {
         activeUsers.remove(logPassArr[0]);
     }
 }
-
