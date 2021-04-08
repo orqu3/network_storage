@@ -14,6 +14,7 @@ import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.util.CharsetUtil;
 
 import java.net.InetSocketAddress;
 
@@ -42,8 +43,8 @@ public class Network {
                 protected void initChannel(SocketChannel socketChannel) {
                     socketChannel.pipeline().addLast(
                             new DelimiterBasedFrameDecoder(1024, Delimiters.lineDelimiter()),
-                            new StringDecoder(),
-                            new StringEncoder(),
+                            new StringDecoder(CharsetUtil.UTF_8),
+                            new StringEncoder(CharsetUtil.UTF_8),
                             new FileHandler(controller));
                     currentChannel = socketChannel;
                 }
